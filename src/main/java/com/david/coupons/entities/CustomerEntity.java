@@ -26,7 +26,7 @@ public class CustomerEntity{
     @Column(name="password", nullable = false)
     private int password;
     @JsonIgnore
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany
     @JoinTable(name="coupon_vs_customer",
             joinColumns = @JoinColumn(name="customer_id"),
             inverseJoinColumns = @JoinColumn(name = "coupon_id"))

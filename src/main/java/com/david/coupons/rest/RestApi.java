@@ -109,24 +109,24 @@ public class RestApi {
         }else{
             System.out.println("Falied to retrieve company coupons by max price");
         }
-//
-//        if(deleteCompany()){
-//            System.out.println("Company deleted");
-//        }else{
-//            System.out.println("Failed to delete company");
-//        }
-//
-//      if(deleteCustomer()){
-//          System.out.println("Customer deleted");
-//       }else{
-//          System.out.println("Failed to delete customer");
-//       }
 
-//        if(deleteCoupon()){
-//            System.out.println("Coupon deleted");
-//        }else{
-//            System.out.println("Failed to delete coupon");
-//        }
+        if(deleteCompany()){
+            System.out.println("Company deleted");
+        }else{
+            System.out.println("Failed to delete company");
+        }
+
+      if(deleteCustomer()){
+          System.out.println("Customer deleted");
+       }else{
+          System.out.println("Failed to delete customer");
+       }
+
+        if(deleteCoupon()){
+            System.out.println("Coupon deleted");
+        }else{
+            System.out.println("Failed to delete coupon");
+        }
     }
 //
 //

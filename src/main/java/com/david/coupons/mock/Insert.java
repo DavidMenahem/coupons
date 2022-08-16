@@ -15,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.sql.Date;
+import java.util.HashSet;
 import java.util.Random;
 
 
@@ -64,9 +65,10 @@ public class Insert {
                     .build();
             CustomerEntity savedCustomerEntity = customerRepository.save(customerEntity);
 
+            savedCustomerEntity.setCoupons(new HashSet<>());
+            savedCouponEntity.setCustomers(new HashSet<>());
             savedCustomerEntity.addCoupon(savedCouponEntity);
             customerRepository.save(savedCustomerEntity);
         }
     }
-
 }

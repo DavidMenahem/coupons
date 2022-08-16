@@ -7,7 +7,6 @@ import com.david.coupons.exceptions.ApplicationException;
 import com.david.coupons.repositories.CompanyRepository;
 import com.david.coupons.repositories.CouponRepository;
 import com.david.coupons.repositories.CustomerRepository;
-import com.david.coupons.constants.TestData;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -42,6 +41,7 @@ public class AdminService {
         } else if (nameExists) {
             throw new ApplicationException("Name already exists " + companyEntity.getName());
         } else {
+            companyEntity.setPassword(String.valueOf(companyEntity.getPassword()).hashCode());
             return companyRepository.save(companyEntity);
         }
 
@@ -92,17 +92,22 @@ public class AdminService {
         if (emailExists) {
             throw new ApplicationException("Email already exists" + companyEntity.getEmail());
         } else {
-            companyEntity.setPassword(companyEntityFromDB.get().getPassword());
-            return companyRepository.save(companyEntity);
+            if(companyEntityFromDB.isPresent()) {
+                companyEntity.setPassword(companyEntityFromDB.get().getPassword());
+                return companyRepository.save(companyEntity);
+            }
+                throw new ApplicationException("Failed to retrieve company + " + companyEntity.getName() +"\"from data base with id");
         }
     }
 
-    public CompanyEntity updateCompanyPassword(final CompanyEntity company){
+    public CompanyEntity updateCompanyPassword(final CompanyEntity company) throws ApplicationException {
         Optional<CompanyEntity> companyEntityFromDB = companyRepository.findById(company.getId());
         if(companyEntityFromDB.isPresent()) {
             companyEntityFromDB.get().setPassword(String.valueOf(company.getPassword()).hashCode());
+            return companyRepository.save(companyEntityFromDB.get());
         }
-        return companyRepository.save(companyEntityFromDB.get());
+            throw new ApplicationException("Failed to retrieve company :\"" + company.getName() + "\" from the database");
+
     }
 
     public void deleteCompany(final long companyId){
@@ -116,13 +121,12 @@ public class AdminService {
         }
         couponRepository.deleteByCompanyId(companyId);
     }
-    public CompanyEntity getCompanyById(final long id){
-            Optional<CompanyEntity> company = companyRepository.findById(id);
-            if(company.isPresent()){
-                return company.get();
-            }else{
-                return null;
-            }
+    public CompanyEntity getCompanyById(final long companyId) throws ApplicationException {
+        Optional<CompanyEntity> company = companyRepository.findById(companyId);
+        if(company.isPresent()){
+            return company.get();
+        }
+            throw new ApplicationException("Failed to retrieve company from the database with id " + companyId);
     }
 
     public List<CompanyEntity> getAllCompanies(){
@@ -140,11 +144,10 @@ public class AdminService {
             }
         }
         if(!emailExists) {
+            customerEntity.setPassword(String.valueOf(customerEntity.getPassword()).hashCode());
             return customerRepository.save(customerEntity);
         }
-        else {
             throw new ApplicationException("Email already exist in the system.");
-        }
     }
 
     public CustomerEntity updateCustomer(final CustomerEntity customerEntity) throws ApplicationException {
@@ -163,9 +166,7 @@ public class AdminService {
         if(!emailExists) {
             return customerRepository.save(customerEntity);
         }
-        else {
             throw new ApplicationException("Email already exist in the system.");
-        }
     }
     public CustomerEntity updateCustomerDetails(final CustomerEntity customerEntity) throws ApplicationException {
 
@@ -186,39 +187,42 @@ public class AdminService {
             customerEntity.setPassword(password);
             return customerRepository.save(customerEntity);
         }
-        else {
             throw new ApplicationException("Email already exist in the system.");
-        }
     }
 
-    public CustomerEntity updateCustomerPassword(final CustomerEntity customer){
+    public CustomerEntity updateCustomerPassword(final CustomerEntity customer) throws ApplicationException {
         Optional<CustomerEntity> customerEntityFromDB = customerRepository.findById(customer.getId());
         if(customerEntityFromDB.isPresent()) {
             customerEntityFromDB.get().setPassword(String.valueOf(customer.getPassword()).hashCode());
         }
-        return customerRepository.save(customerEntityFromDB.get());
+        if(customerEntityFromDB.isPresent()) {
+            return customerRepository.save(customerEntityFromDB.get());
+        }
+            throw new ApplicationException("Failed to retrieve customer :\"" + customer.getFirstName() + " " + customer.getLastName() +  "\" from the database");
+
     }
+
     public void deleteCustomer(final long customerId){
-            customerRepository.deleteById(customerId);
+        customerRepository.deleteById(customerId);
     }
-    public CustomerEntity getCustomerById(final long customerId) {
-            Optional<CustomerEntity> customer =  customerRepository.findById(customerId);
-            if(customer.isPresent()){
-                return customer.get();
-            }else{
-                return null;
-            }
+
+    public CustomerEntity getCustomerById(final long customerId) throws ApplicationException {
+        Optional<CustomerEntity> customer =  customerRepository.findById(customerId);
+        if(customer.isPresent()){
+            return customer.get();
+        }
+            throw new ApplicationException("Failed to retrieve customer from the database with id " + customerId);
     }
 
     public List<CustomerEntity> getAllCustomers(){
         return customerRepository.findAll();
     }
 
-    public CustomerEntity getOneCustomer(final long customerId){
+    public CustomerEntity getOneCustomer(final long customerId) throws ApplicationException {
         Optional<CustomerEntity> customer = customerRepository.findById(customerId);
-        if(customer.isPresent()){
+        if(customer.isPresent()) {
             return customer.get();
         }
-        return null;
+            throw new ApplicationException("Failed to retrieve customer from the database with id " + customerId);
     }
 }

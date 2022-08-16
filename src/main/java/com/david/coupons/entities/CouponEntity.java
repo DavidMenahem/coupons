@@ -37,7 +37,6 @@ public class CouponEntity{
     private int amount;
 
     @Column(name = "price", nullable = false)
-
     private double price;
     @Lob
     @Column(name = "image")

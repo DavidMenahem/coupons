@@ -79,24 +79,24 @@ public class CompanyService {
         return couponRepository.findByCompanyIdAndPriceLessThan(companyId,maxPrice);
     }
 
-    public CompanyEntity getOneCompany(final long companyId){
+    public CompanyEntity getOneCompany(final long companyId) throws ApplicationException {
         Optional<CompanyEntity> company = companyRepository.findById(companyId);
         if(company.isPresent()){
             return company.get();
-        }else{
-            return null;
         }
+            throw new ApplicationException("Failed to retrieve company from the database with id " + companyId);
+
     }
     public CompanyEntity getByEmail(String email){
         return companyRepository.findByEmail(email);
     }
 
-    public CouponEntity getOneCoupon(long couponId){
+    public CouponEntity getOneCoupon(long couponId) throws ApplicationException {
         Optional<CouponEntity> coupon = couponRepository.findById(couponId);
         if(coupon.isPresent()){
             return coupon.get();
-        }else{
-            return null;
         }
+            throw  new ApplicationException("Failed to retrieve coupon with id " + couponId +  "from the database");
+
     }
 }

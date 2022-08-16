@@ -24,12 +24,12 @@ public class AdminController {
         return adminService.createCompany(companyEntity);
     }
     @PutMapping("/companies/details/{companyId}")
-    public CompanyEntity updateCompanyDetail(@PathVariable long companyId,@RequestBody final CompanyEntity company) throws ApplicationException{
+    public CompanyEntity updateCompanyDetail(@PathVariable final long companyId,@RequestBody final CompanyEntity company) throws ApplicationException{
         company.setId(companyId);
         return adminService.updateCompanyDetails(company);
     }
     @PutMapping("/companies/password/{companyId}")
-    public CompanyEntity updateCompanyPassword(@PathVariable long companyId,@RequestBody final CompanyEntity company){
+    public CompanyEntity updateCompanyPassword(@PathVariable final long companyId,@RequestBody final CompanyEntity company) throws ApplicationException {
         company.setId(companyId);
         return adminService.updateCompanyPassword(company);
     }
@@ -43,37 +43,37 @@ public class AdminController {
     }
 
     @GetMapping("/companies/{companyId}")
-    public CompanyEntity getOneCompany(@PathVariable final long companyId){
+    public CompanyEntity getOneCompany(@PathVariable final long companyId) throws ApplicationException {
         return adminService.getCompanyById(companyId);
     }
 
     //Customers
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/customers")
-    public CustomerEntity createCustomer(@RequestHeader String authorization,@RequestBody final CustomerEntity customerEntity) throws ApplicationException {
+    public CustomerEntity createCustomer(@RequestBody final CustomerEntity customerEntity) throws ApplicationException {
         return adminService.createCustomer(customerEntity);
     }
     @PutMapping("/customers/details/{customerId}")
-    public CustomerEntity updateCustomerDetail(@RequestHeader String authorization,@PathVariable final long customerId,@RequestBody final CustomerEntity customerEntity) throws ApplicationException {
+    public CustomerEntity updateCustomerDetail(@PathVariable final long customerId,@RequestBody final CustomerEntity customerEntity) throws ApplicationException {
         customerEntity.setId(customerId);
         return adminService.updateCustomerDetails(customerEntity);
     }
     @PutMapping("/customers/password/{customerId}")
-    public CustomerEntity updateCustomerPassword(@RequestHeader String authorization,@PathVariable final long customerId,@RequestBody final CustomerEntity customer){
+    public CustomerEntity updateCustomerPassword(@PathVariable final long customerId,@RequestBody final CustomerEntity customer) throws ApplicationException {
         customer.setId(customerId);
         return adminService.updateCustomerPassword(customer);
     }
     @DeleteMapping("/customers/{customerId}")
-    public void deleteCustomer(@RequestHeader String authorization,@PathVariable final long customerId){
+    public void deleteCustomer(@PathVariable final long customerId){
         adminService.deleteCustomer(customerId);
     }
 
     @GetMapping("/customers/{customerId}")
-    public CustomerEntity getOneCustomer(@RequestHeader String authorization,@PathVariable final long customerId){
+    public CustomerEntity getOneCustomer(@PathVariable final long customerId) throws ApplicationException {
         return adminService.getCustomerById(customerId);
     }
     @GetMapping("/customers")
-    public List<CustomerEntity> getAllCustomers(@RequestHeader String authorization){
+    public List<CustomerEntity> getAllCustomers(){
         return adminService.getAllCustomers();
     }
 }

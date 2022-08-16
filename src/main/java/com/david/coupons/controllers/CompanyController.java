@@ -25,15 +25,15 @@ public class CompanyController {
 
 
     @PostMapping(value ="/coupons",consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-    public CouponEntity addCoupon(@RequestParam MultipartFile imageFile,
-                                  @RequestParam long companyId,
-                                  @RequestParam String title,
-                                  @RequestParam double price,
-                                  @RequestParam String startDate,
-                                  @RequestParam String endDate,
-                                  @RequestParam int amount,
-                                  @RequestParam String description,
-                                  @RequestParam String category
+    public CouponEntity addCoupon(@RequestParam final MultipartFile imageFile,
+                                  @RequestParam final long companyId,
+                                  @RequestParam final String title,
+                                  @RequestParam final double price,
+                                  @RequestParam final String startDate,
+                                  @RequestParam final String endDate,
+                                  @RequestParam final int amount,
+                                  @RequestParam final String description,
+                                  @RequestParam final String category
                                   ) throws ApplicationException, IOException {
         CompanyEntity companyEntity = companyService.getOneCompany(companyId);
         CouponEntity coupon = CouponEntity.builder()
@@ -51,16 +51,16 @@ public class CompanyController {
     }
 
     @PutMapping(value = "/coupons/{couponId}",consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-    public CouponEntity updateCoupon(@RequestParam MultipartFile imageFile,
-                                     @RequestParam long id,
-                                     @RequestParam long companyId,
-                                     @RequestParam String title,
-                                     @RequestParam double price,
-                                     @RequestParam Date startDate,
-                                     @RequestParam Date endDate,
-                                     @RequestParam int amount,
-                                     @RequestParam String description,
-                                     @RequestParam String category
+    public CouponEntity updateCoupon(@RequestParam final MultipartFile imageFile,
+                                     @RequestParam final long id,
+                                     @RequestParam final long companyId,
+                                     @RequestParam final String title,
+                                     @RequestParam final double price,
+                                     @RequestParam final Date startDate,
+                                     @RequestParam final Date endDate,
+                                     @RequestParam final int amount,
+                                     @RequestParam final String description,
+                                     @RequestParam final String category
     ) throws ApplicationException, IOException {
         CompanyEntity companyEntity = companyService.getOneCompany(companyId);
         CouponEntity coupon = CouponEntity.builder()
@@ -99,12 +99,12 @@ public class CompanyController {
     }
 
     @GetMapping("/{companyId}")
-    public CompanyEntity getOneCompany(@PathVariable final long companyId){
+    public CompanyEntity getOneCompany(@PathVariable final long companyId) throws ApplicationException {
         return companyService.getOneCompany(companyId);
     }
 
     @GetMapping("/coupon/{couponId}")
-    public CouponEntity getOneCoupon(@PathVariable long couponId){
+    public CouponEntity getOneCoupon(@PathVariable long couponId) throws ApplicationException {
         return companyService.getOneCoupon(couponId);
     }
 }

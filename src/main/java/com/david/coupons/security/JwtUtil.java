@@ -1,5 +1,6 @@
 package com.david.coupons.security;
 
+import com.david.coupons.enums.Role;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -34,7 +35,7 @@ public class JwtUtil {
         return Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody();
     }
 
-    public static String generateToken(final String email, String role,long id) {
+    public static String generateToken(final String email, Role role, long id) {
         final Map<String, Object> claims = new HashMap<>();
         claims.put("authorities",role);
         claims.put("id",id);

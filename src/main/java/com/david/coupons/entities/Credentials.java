@@ -1,4 +1,5 @@
 package com.david.coupons.entities;
+import com.david.coupons.enums.Role;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -11,7 +12,7 @@ public class Credentials {
 
     private String password;
 
-    private String role;
+    private Role role;
 
     public String getEmail() {
         return email;
@@ -25,15 +26,7 @@ public class Credentials {
         return password;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getRole() {
+    public Role getRole() {
         return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
     }
 }

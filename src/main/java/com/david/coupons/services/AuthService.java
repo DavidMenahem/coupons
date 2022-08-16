@@ -7,13 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.List;
-
 @Service
 @RequiredArgsConstructor
 public class AuthService {
@@ -25,17 +19,17 @@ public class AuthService {
         long id = 0;
         try {
             switch(credentials.getRole()){
-                case "Admin":
+                case Admin:
                     authenticationManager.authenticate(
                         new UsernamePasswordAuthenticationToken(credentials.getEmail(), credentials.getPassword()));
                         break;
-                case "Company":
+                case Company:
                     id = companyService.getByEmail(credentials.getEmail()).getId();
                     authenticationManager.authenticate(
                             new UsernamePasswordAuthenticationToken(credentials.getEmail(),
                                     credentials.getPassword().hashCode()));
                         break;
-                case "Customer":
+                case Customer:
                     id = customerService.getByEmail(credentials.getEmail()).getId();
                     authenticationManager.authenticate(
                             new UsernamePasswordAuthenticationToken(credentials.getEmail(),

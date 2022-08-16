@@ -47,23 +47,22 @@ public class CustomerService{
                     throw new ApplicationException("You have already purchased this coupon");
                 }
             }else{
-                System.out.println("customer not exists");
+                throw new ApplicationException("Customer not exists");
             }
         }else{
-            System.out.println("coupon not exists");
+            throw new ApplicationException("Coupon not exists");
         }
     }
 
-    @Transactional
-    public Set<CouponEntity> getCustomerCoupons(final long customerId){
+    public Set<CouponEntity> getCustomerCoupons(final long customerId) throws ApplicationException {
         Optional<CustomerEntity> customer = customerRepository.findById(customerId);
         if(customer.isPresent()){
             return customer.get().getCoupons();
         }
-        return null;
+            throw new ApplicationException("Failed to retrieve customer with id " + customerId + " from the database");
     }
 
-    public Set<CouponEntity> getCustomerCouponsByCategory(final long customerId,final Category category){
+    public Set<CouponEntity> getCustomerCouponsByCategory(final long customerId,final Category category) throws ApplicationException {
         Optional<CustomerEntity> customer = customerRepository.findById(customerId);
         Set<CouponEntity> couponsByCategory = new HashSet<>();
         if(customer.isPresent()){
@@ -74,11 +73,12 @@ public class CustomerService{
                     couponsByCategory.add(coupon);
                 }
             }
+            return couponsByCategory;
         }
-        return couponsByCategory;
+        throw new ApplicationException("Failed to retrieve customer with id " + customerId);
     }
 
-    public Set<CouponEntity> getCustomerCouponsPriceLessThan(final long customerId,final double maxPrice){
+    public Set<CouponEntity> getCustomerCouponsPriceLessThan(final long customerId,final double maxPrice) throws ApplicationException {
         Optional<CustomerEntity> customer = customerRepository.findById(customerId);
         Set<CouponEntity> lowestCouponEntities = new HashSet<>();
         if(customer.isPresent()){
@@ -89,16 +89,18 @@ public class CustomerService{
                     lowestCouponEntities.add(coupon);
                 }
             }
+            return lowestCouponEntities;
         }
-        return lowestCouponEntities;
+        throw new ApplicationException("Failed to retrieve customer with id " + customerId);
+
     }
 
-    public CustomerEntity getOneCustomer(final long customerId){
+    public CustomerEntity getOneCustomer(final long customerId) throws ApplicationException {
         Optional<CustomerEntity> customer = customerRepository.findById(customerId);
         if(customer.isPresent()){
             return customer.get();
         }
-        return null;
+        throw new ApplicationException("Failed to retrieve customer with id " + customerId);
     }
 
     public CustomerEntity getByEmail(String email){
