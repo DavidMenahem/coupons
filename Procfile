@@ -1,1 +1,1 @@
-web: java $JAVA_OPTS -cp target/classes:target/dependency/* com.david.coupons
+web: java -jar target/coupons-0.0.1-SNAPSHOT.jar
