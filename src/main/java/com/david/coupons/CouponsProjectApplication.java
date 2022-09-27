@@ -12,8 +12,8 @@ public class CouponsProjectApplication {
         ApplicationContext ctx = SpringApplication.run(CouponsProjectApplication.class, args);
 
         try {
-            //ctx.getBean(DailyJob.class).checkExpiredCoupons();
-            //ctx.getBean(Insert.class).run();
+            ctx.getBean(DailyJob.class).checkExpiredCoupons();
+            ctx.getBean(Insert.class).run();
         }catch(Exception e){
             System.out.println(e.getMessage());
         }
