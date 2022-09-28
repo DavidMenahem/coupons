@@ -22,10 +22,7 @@ import java.util.Random;
 @Component
 @RequiredArgsConstructor
 public class Insert {
-    private final AdminService adminService;
     private final CompanyService companyService;
-    private final CustomerService customerService;
-
     private final CompanyRepository companyRepository;
     private final CustomerRepository customerRepository;
     public void run() throws ApplicationException {

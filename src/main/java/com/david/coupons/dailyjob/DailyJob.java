@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 public class DailyJob {
 
     private final DailyJobService dailyJobService;
-   @Scheduled(fixedRate = 1000*60)
+   @Scheduled(fixedDelay = 1000*10 ,fixedRate = 1000*60)
     public void checkExpiredCoupons(){
         System.out.println("Starting expired coupons deletion");
         dailyJobService.check();
