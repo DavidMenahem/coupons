@@ -46,8 +46,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.PUT, "/admin/**").hasAuthority("Admin")
                 .antMatchers(HttpMethod.DELETE, "/admin/**").hasAuthority("Admin")
                 .and()
-                .csrf().disable()
-                .formLogin().disable();
+                .csrf().disable();
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);// Adds out filter to the filter chain
     }
 

@@ -1,6 +1,11 @@
 package com.david.coupons.security;
 
+import com.david.coupons.entities.CompanyEntity;
+import com.david.coupons.entities.CustomerEntity;
 import com.david.coupons.enums.Role;
+import com.david.coupons.exceptions.ApplicationException;
+import com.david.coupons.services.CompanyService;
+import com.david.coupons.services.CustomerService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -14,7 +19,9 @@ import java.util.Map;
 import java.util.function.Function;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
+
 public class JwtUtil {
+
     private static final int ONE_HOUR_IN_MILLIS = 1000 * 60 * 60;
     public static final String SECRET_KEY = "secret";
 
@@ -35,8 +42,9 @@ public class JwtUtil {
         return Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody();
     }
 
-    public static String generateToken(final String email, Role role, long id) {
+    public static String generateToken(final String name,final String email, final Role role, final long id){
         final Map<String, Object> claims = new HashMap<>();
+        claims.put("name",name);
         claims.put("authorities",role);
         claims.put("id",id);
         return createToken(claims, email);

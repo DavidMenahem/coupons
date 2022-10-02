@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.sql.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -76,7 +77,7 @@ public class CompanyService {
         return couponRepository.findByCompanyIdAndCategory(companyId,category);
     }
     public List<CouponEntity> getCompanyCouponsPriceLessThan(final long companyId,final double maxPrice){
-        return couponRepository.findByCompanyIdAndPriceLessThan(companyId,maxPrice);
+        return couponRepository.findByCompanyIdAndPriceLessThanEqual(companyId,maxPrice);
     }
 
     public CompanyEntity getOneCompany(final long companyId) throws ApplicationException {
@@ -87,6 +88,7 @@ public class CompanyService {
             throw new ApplicationException("Failed to retrieve company from the database with id " + companyId);
 
     }
+
     public CompanyEntity getByEmail(String email){
         return companyRepository.findByEmail(email);
     }
@@ -98,5 +100,10 @@ public class CompanyService {
         }
             throw  new ApplicationException("Failed to retrieve coupon with id " + couponId +  "from the database");
 
+    }
+
+    public Set<CouponEntity> getExpiredCoupons(){
+        Date now = new Date(System.currentTimeMillis());
+        return couponRepository.getExpiredCoupons(now);
     }
 }

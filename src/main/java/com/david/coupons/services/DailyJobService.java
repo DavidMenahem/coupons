@@ -15,16 +15,16 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class DailyJobService {
 
-    private final CouponRepository couponRepository;
+    private final CompanyService companyService;
 
     public void check(){
-        Set<CouponEntity> coupons = couponRepository.getExpiredCoupons();
+        Set<CouponEntity> coupons = companyService.getExpiredCoupons();
         for (CouponEntity coupon: coupons){
                 Set<CustomerEntity> customers = coupon.getCustomers();
                 for (CustomerEntity customer : customers) {
                     coupon.removeCustomer(customer);
                 }
-                couponRepository.deleteById(coupon.getId());
+                companyService.deleteCoupon(coupon.getId());
                 System.out.println("deleted coupon " + coupon.getId());
             }
         }

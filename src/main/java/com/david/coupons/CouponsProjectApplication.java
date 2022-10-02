@@ -13,7 +13,7 @@ public class CouponsProjectApplication {
 
         try {
             ctx.getBean(DailyJob.class).checkExpiredCoupons();
-            ctx.getBean(Insert.class).run();
+            //ctx.getBean(Insert.class).run();
         }catch(Exception e){
             System.out.println(e.getMessage());
         }

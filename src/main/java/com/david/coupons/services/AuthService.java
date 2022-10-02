@@ -1,6 +1,8 @@
 package com.david.coupons.services;
 
+import com.david.coupons.entities.CompanyEntity;
 import com.david.coupons.entities.Credentials;
+import com.david.coupons.entities.CustomerEntity;
 import com.david.coupons.exceptions.ApplicationException;
 import com.david.coupons.security.JwtUtil;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +19,7 @@ public class AuthService {
 
     public String login(final Credentials credentials) throws ApplicationException {
         long id = 0;
+        String name = "Admin";
         try {
             switch(credentials.getRole()){
                 case Admin:
@@ -24,13 +27,17 @@ public class AuthService {
                         new UsernamePasswordAuthenticationToken(credentials.getEmail(), credentials.getPassword()));
                         break;
                 case Company:
-                    id = companyService.getByEmail(credentials.getEmail()).getId();
+                    CompanyEntity company = companyService.getByEmail(credentials.getEmail());
+                    id = company.getId();
+                    name = company.getName();
                     authenticationManager.authenticate(
                             new UsernamePasswordAuthenticationToken(credentials.getEmail(),
                                     credentials.getPassword().hashCode()));
                         break;
                 case Customer:
-                    id = customerService.getByEmail(credentials.getEmail()).getId();
+                    CustomerEntity customer = customerService.getByEmail(credentials.getEmail());
+                    id = customer.getId();
+                    name = customer.getFirstName() + " " + customer.getLastName();
                     authenticationManager.authenticate(
                             new UsernamePasswordAuthenticationToken(credentials.getEmail(),
                                     credentials.getPassword().hashCode()));
@@ -40,6 +47,6 @@ public class AuthService {
             throw new ApplicationException("Incorrect credentials");
         }
 
-        return JwtUtil.generateToken(credentials.getEmail(),credentials.getRole(),id);
+        return JwtUtil.generateToken(name,credentials.getEmail(),credentials.getRole(),id);
     }
 }

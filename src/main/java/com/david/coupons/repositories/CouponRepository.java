@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -17,10 +18,10 @@ public interface CouponRepository extends JpaRepository<CouponEntity,Long> {
 
     List<CouponEntity> findByCompanyIdAndCategory(final long companyID, final Category category);
 
-    List<CouponEntity> findByCompanyIdAndPriceLessThan(final long companyId, final double maxPrice);
+    List<CouponEntity> findByCompanyIdAndPriceLessThanEqual(final long companyId, final double maxPrice);
 
-    @Query(value = "SELECT * FROM coupons AS c WHERE c.end_date < CURDATE()", nativeQuery = true)
-    Set<CouponEntity> getExpiredCoupons();
+    @Query(value = "SELECT * FROM coupons WHERE end_date < ?1", nativeQuery = true)
+    Set<CouponEntity> getExpiredCoupons(Date now);
 
     void deleteByCompanyId(long companyId);
 }
