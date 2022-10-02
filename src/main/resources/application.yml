@@ -14,7 +14,7 @@ spring:
     hikari:
       maximum-pool-size: 2
     platform: mysql
-    url: jdbc:mysql://localhost:3306/coupons
-    username: root
-    password: 1234
+    url: jdbc:mysql://sql11.freemysqlhosting.net:3306/sql11522597
+    username: sql11522597
+    password: PFen9ehpnI
     driverClassName: com.mysql.cj.jdbc.Driver
