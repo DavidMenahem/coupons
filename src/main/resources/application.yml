@@ -12,7 +12,7 @@ spring:
 
   datasource:
     hikari:
-      maximum-pool-size: 2
+      maximum-pool-size: 1
     platform: mysql
     url: jdbc:mysql://sql11.freemysqlhosting.net:3306/sql11522597
     username: sql11522597
